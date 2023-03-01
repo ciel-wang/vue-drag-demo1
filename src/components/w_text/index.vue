@@ -1,5 +1,5 @@
 <template>
-	<div>text</div>
+	<div :style="styleSizeName">{{ dataChart }}</div>
 </template>
 
 <script>

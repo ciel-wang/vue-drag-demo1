@@ -27,7 +27,7 @@
 				</el-form-item>
 			</el-form>
 		</template>
-		<el-collapse accordion v-else>
+		<el-collapse v-else>
 			<el-collapse-item title="基本属性">
 				<el-form label-width="60px" label-position="left" size="mini">
 					<el-form-item label="X位置">
@@ -77,6 +77,7 @@
 
 			<el-collapse-item title="其他">
 				<el-form label-width="60px" label-position="left" size="mini">
+					<commomAttr></commomAttr>
 					<component :is="contain.activeObj.name + 'Attr'" />
 				</el-form>
 			</el-collapse-item>
@@ -85,9 +86,11 @@
 </template>
 
 <script>
-import attr from '../../components/attr.js';
+import component from '../../components/attr.js';
+import commomAttr from './commomAttr.vue';
 export default {
-	mixins: [attr],
+	mixins: [component],
+	components: { commomAttr },
 	inject: ['contain'],
 	provide() {
 		return {

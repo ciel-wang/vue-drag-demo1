@@ -17,7 +17,7 @@
 				left: $w.setPx(item.left),
 			}"
 		>
-			<component :is="item.name" :style="{ width: $w.setPx(item.attr.width), height: $w.setPx(item.attr.height) }"></component>
+			<component :is="item.name" :attr="item.attr" :dataChart="item.data"></component>
 		</shape>
 	</div>
 </template>
@@ -44,14 +44,6 @@ export default {
 	},
 	mounted() {
 		this.canvasId = document.getElementById('canvasId');
-	},
-	methods: {
-		handleDragStart(e) {
-			console.log(e);
-		},
-		handleDrag(e) {
-			console.log(e);
-		},
 	},
 	computed: {
 		styleName() {

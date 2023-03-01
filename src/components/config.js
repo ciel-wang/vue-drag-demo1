@@ -2,9 +2,9 @@ export const config = {
 	width: 600,
 	height: 600,
 	scale: 1,
+	fontSize: 16,
 	backgroundColor: '#fff',
 	backgroundImg: '',
-	fontSize: 16,
 };
 export const dicOption = {
 	fontWeight: [

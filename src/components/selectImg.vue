@@ -11,7 +11,7 @@
 </template>
 
 <script>
-// import { imgOption } from '@/utils/utils';
+import { imgOption } from './config';
 export default {
 	data() {
 		return {

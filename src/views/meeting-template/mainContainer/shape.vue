@@ -161,6 +161,7 @@ export default {
 				top: `${newTop}px`,
 				cursor: this.cursors[point],
 			};
+
 			return style;
 		},
 		getCursor() {
