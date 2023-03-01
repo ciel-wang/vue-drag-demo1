@@ -1,0 +1,81 @@
+<template>
+	<div class="w_toolbar">
+		<el-menu class="u-width-60" mode="horizontal" active-text-color="#409EFF">
+			<el-submenu :index="index + 'menu'" v-for="(item, index) in baseList" :key="index">
+				<template slot="title">{{ item.label }}</template>
+				<el-menu-item
+					v-for="(citem, cindex) in item.children"
+					:key="cindex"
+					class="menu-inline"
+					:index="`${index}-${cindex}`"
+					@click="handleAdd(citem.option, true)"
+				>
+					<div>{{ citem.label }}</div>
+				</el-menu-item>
+			</el-submenu>
+		</el-menu>
+
+		<div>
+			<div class="w_btn w_btn1">预 览</div>
+			<div class="w_btn w_btn2" @click="handlerSave">保 存</div>
+		</div>
+	</div>
+</template>
+
+<script>
+import config from './config';
+import { nanoid } from 'nanoid';
+
+export default {
+	inject: ['contain'],
+	provide() {
+		return {
+			contain: this.contain,
+		};
+	},
+	data() {
+		return {
+			baseList: config.baseList,
+		};
+	},
+	methods: {
+		handleAdd(option, first = false) {
+			let obj = this.$w.deepClone(option);
+			obj.left = 0;
+			obj.top = 0;
+			obj.index = nanoid();
+			if (first) {
+				this.contain.componentData.unshift(obj);
+			} else {
+				this.contain.componentData.push(obj);
+			}
+		},
+		handlerSave() {},
+	},
+};
+</script>
+
+<style lang="scss">
+.w_toolbar {
+	padding-left: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	.w_btn {
+		width: 110px;
+		height: 100%;
+		text-align: center;
+		display: inline-block;
+		color: #fff;
+		cursor: pointer;
+		font-size: 14px;
+	}
+	.w_btn1 {
+		background-color: #67c23a;
+		margin-left: 10px;
+	}
+	.w_btn2 {
+		background-color: #409eff;
+	}
+}
+</style>
