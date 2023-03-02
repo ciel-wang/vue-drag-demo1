@@ -27,6 +27,7 @@
 		</template>
 	</el-table>
 </template>
+
 <script>
 export default {
 	name: 'wTable',

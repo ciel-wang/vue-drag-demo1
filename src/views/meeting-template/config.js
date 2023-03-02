@@ -51,7 +51,7 @@ export default {
 						top: 0,
 						left: 0,
 						index: '',
-						data: '/img/img-default.png',
+						data: '/logo.png',
 						attr: {
 							width: 100,
 							height: 100,
@@ -77,11 +77,7 @@ export default {
 						top: 0,
 						left: 0,
 						index: '',
-						data: [
-							'https://img.alicdn.com/tfs/TB1v28TC8v0gK0jSZKbXXbK2FXa-1880-640.jpg',
-							'https://img.alicdn.com/tfs/TB1uevcCrj1gK0jSZFuXXcrHpXa-1880-640.jpg',
-							'http://www.w3school.com.cn/i/movie.ogg',
-						],
+						data: ['/img/bg/bg1.png', '/img/bg/bg1.png', '/img/bg/bg1.png'],
 						attr: {
 							width: 420,
 							height: 220,

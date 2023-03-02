@@ -22,13 +22,14 @@
 						<rect width="100%" height="100%" fill="url(#grid)"></rect>
 					</svg>
 					<mainContainer></mainContainer>
-					<contextMenu></contextMenu>
 				</div>
 			</el-main>
 
 			<el-aside width="300px" class="u-p-10">
 				<attributes></attributes>
 			</el-aside>
+
+			<contextMenu></contextMenu>
 		</el-container>
 	</el-container>
 </template>

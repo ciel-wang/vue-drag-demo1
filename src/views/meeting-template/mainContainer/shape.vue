@@ -1,5 +1,5 @@
 <template>
-	<div class="shape" :class="{ active }" @mousedown.stop="handleMove">
+	<div class="shape" :class="{ active }" :data-index="index" @mousedown.stop="handleMove">
 		<div
 			v-for="item in isActive() ? pointList : []"
 			:key="item"
@@ -96,7 +96,15 @@ export default {
 		},
 		handleMove(event) {
 			this.contain.activeIndex = this.index;
-			let target = document.querySelector('.shape');
+			if (this.contain.activeObj.isLock) return;
+			let target = '';
+			let ele = document.querySelectorAll('.shape');
+			for (let i = 0; i < ele.length; i++) {
+				if (ele[i].dataset.index === this.contain.activeIndex) {
+					target = ele[i];
+					break;
+				}
+			}
 			let bounds = this.mouseBounds(event, target.getBoundingClientRect(), this.canvasId().getBoundingClientRect());
 			let _this = this;
 			this.cursors = this.getCursor();

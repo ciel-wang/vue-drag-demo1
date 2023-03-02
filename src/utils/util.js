@@ -1,6 +1,12 @@
 import Vue from 'vue';
 import contextmenu from './contextmenu';
 
+export function swap(arr, i, j) {
+	const temp = arr[i];
+	Vue.set(arr, i, arr[j]);
+	Vue.set(arr, j, temp);
+}
+
 export function mod360(deg) {
 	return (deg + 360) % 360;
 }

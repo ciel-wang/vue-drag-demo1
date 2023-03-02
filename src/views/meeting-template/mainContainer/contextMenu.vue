@@ -5,22 +5,24 @@
 			{{ contain.activeObj.isLock ? '解锁' : '锁定' }}
 		</div>
 		<div class="contentmenu__item" @click="handleDelete"><i class="el-icon-delete"></i>删除</div>
-		<div class="contentmenu__item"><i class="el-icon-money"></i>复制</div>
-		<div class="contentmenu__item"><i class="el-icon-arrow-up"></i>置顶</div>
-		<div class="contentmenu__item"><i class="el-icon-arrow-down"></i>置底</div>
-		<div class="contentmenu__item"><i class="el-icon-arrow-up"></i>上移</div>
-		<div class="contentmenu__item"><i class="el-icon-arrow-down"></i>下移</div>
+		<div class="contentmenu__item" @click="handleCopy"><i class="el-icon-money"></i>复制</div>
+		<div class="contentmenu__item" @click="handleTop"><i class="el-icon-arrow-up"></i>置顶</div>
+		<div class="contentmenu__item" @click="handleBottom"><i class="el-icon-arrow-down"></i>置底</div>
+		<div class="contentmenu__item" @click="handleStepTop"><i class="el-icon-arrow-up"></i>上移</div>
+		<div class="contentmenu__item" @click="handleStepBottom"><i class="el-icon-arrow-down"></i>下移</div>
 	</div>
 </template>
 
 <script>
+import { swap } from '@/utils/util.js';
+import { nanoid } from 'nanoid';
+
 export default {
 	name: 'contentmenu',
 	inject: ['contain'],
 	methods: {
 		handleLock() {
 			this.contain.activeObj.isLock = !this.contain.activeObj.isLock;
-			this.contain.handleMouseDown();
 		},
 		handleDelete() {
 			this.$confirm(`是否删除所选图层?`, '提示', {
@@ -36,6 +38,45 @@ export default {
 					this.contain.handleMouseDown();
 				})
 				.catch(() => {});
+		},
+		handleCopy() {
+			let { componentData, activeObj } = this.contain;
+			let obj = this.$w.deepClone(activeObj);
+			let index = nanoid();
+			obj.index = index;
+			obj.top = 0;
+			obj.left = 0;
+			componentData.push(obj);
+		},
+		handleTop() {
+			let { componentData, activeIndex, activeObj } = this.contain;
+			let itemIndex = componentData.findIndex((v) => v.index === activeIndex);
+			if (itemIndex < componentData.length - 1) {
+				componentData.splice(itemIndex, 1);
+				componentData.push(activeObj);
+			}
+		},
+		handleBottom() {
+			let { componentData, activeIndex, activeObj } = this.contain;
+			let itemIndex = componentData.findIndex((v) => v.index === activeIndex);
+			if (itemIndex > 0) {
+				componentData.splice(itemIndex, 1);
+				componentData.unshift(activeObj);
+			}
+		},
+		handleStepTop() {
+			let { componentData, activeIndex } = this.contain;
+			let itemIndex = componentData.findIndex((v) => v.index === activeIndex);
+			if (itemIndex < componentData.length - 1) {
+				swap(componentData, itemIndex, itemIndex + 1);
+			}
+		},
+		handleStepBottom() {
+			let { componentData, activeIndex } = this.contain;
+			let itemIndex = componentData.findIndex((v) => v.index === activeIndex);
+			if (itemIndex > 0) {
+				swap(componentData, itemIndex, itemIndex - 1);
+			}
 		},
 	},
 };
