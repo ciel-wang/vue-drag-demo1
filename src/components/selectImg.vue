@@ -13,6 +13,12 @@
 <script>
 import { imgOption } from './config';
 export default {
+	props: {
+		contain: {
+			default: () => ({}),
+			type: Object,
+		},
+	},
 	data() {
 		return {
 			imgVisible: false,
@@ -21,26 +27,18 @@ export default {
 			imgOption,
 		};
 	},
-	computed: {
-		curComponent() {
-			return this.$store.state.curComponent;
-		},
-		canvasStyleData() {
-			return this.$store.state.canvasStyleData;
-		},
-	},
 	methods: {
 		openImgDialog(type) {
 			this.imgActive = type === 'bg' ? 0 : type === 'border' ? 1 : 2;
 			this.imgVisible = true;
 		},
 		handleSetimg(value) {
-			// if (this.imgActive == 0) {
-			// 	this.canvasStyleData.backgroundImg = value;
-			// } else if (this.imgActive == 2) {
-			// 	this.curComponent.propValue.img = value;
-			// } else {
-			// }
+			if (this.imgActive == 0) {
+				this.contain.config.backgroundImg = value;
+			} else if (this.imgActive == 2) {
+				this.contain.activeObj.data = value;
+			} else {
+			}
 			this.imgVisible = false;
 		},
 		onSuccess(res) {

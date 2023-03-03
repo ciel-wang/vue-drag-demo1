@@ -25,11 +25,10 @@
 <script>
 import components from '@/components';
 import shape from './shape.vue';
-import contextMenu from './contextMenu.vue';
 
 export default {
 	mixins: [components],
-	components: { shape, contextMenu },
+	components: { shape },
 	inject: ['contain'],
 	provide() {
 		return {
@@ -53,6 +52,7 @@ export default {
 					height: this.$w.setPx(this.contain.config.height),
 					fontSize: this.$w.setPx(this.contain.config.fontSize),
 					backgroundColor: this.contain.config.backgroundColor,
+					opacity: this.contain.config.opacity,
 				},
 				(() => {
 					if (this.contain.config.backgroundImg) {

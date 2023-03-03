@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import config from './config';
+import { baseList } from '@/components/config';
 import { nanoid } from 'nanoid';
 
 export default {
@@ -35,7 +35,7 @@ export default {
 	},
 	data() {
 		return {
-			baseList: config.baseList,
+			baseList,
 		};
 	},
 	methods: {

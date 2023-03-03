@@ -20,7 +20,7 @@
 					<el-input v-model="contain.config.backgroundImg" size="small" style="width: 90%">
 						<el-button slot="append" icon="el-icon-picture" @click="openImgDialog"></el-button>
 					</el-input>
-					<!-- <imgList ref="imgListRef"></imgList> -->
+					<imgList ref="imgListRef" :contain="contain"></imgList>
 				</el-form-item>
 				<el-form-item label="字体大小">
 					<el-input-number v-model="contain.config.fontSize" :min="1" :precision="0" :controls="false"></el-input-number>
@@ -88,9 +88,11 @@
 <script>
 import component from '../../components/attr.js';
 import commomAttr from './commomAttr.vue';
+import imgList from '@/components/selectImg.vue';
+
 export default {
 	mixins: [component],
-	components: { commomAttr },
+	components: { commomAttr, imgList },
 	inject: ['contain'],
 	provide() {
 		return {
@@ -98,7 +100,9 @@ export default {
 		};
 	},
 	methods: {
-		openImgDialog() {},
+		openImgDialog() {
+			this.$refs.imgListRef.openImgDialog('bg');
+		},
 	},
 };
 </script>

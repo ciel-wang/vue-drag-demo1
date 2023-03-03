@@ -36,9 +36,9 @@
 
 <script>
 import top from './meeting-template/top.vue';
-import mainContainer from './meeting-template/mainContainer';
+import mainContainer from './meeting-template/mainContainer.vue';
 import attributes from './meeting-template/attributes.vue';
-import contextMenu from './meeting-template/mainContainer/contextMenu.vue';
+import contextMenu from './meeting-template/contextMenu.vue';
 import { config } from '@/components/config.js';
 
 export default {

@@ -24,6 +24,14 @@ export default (() => {
 								fontSize: this.$w.setPx(this.attr.fontSize),
 							};
 						}
+					})(),
+					(() => {
+						if (this.attr.letterSpacing) {
+							return {
+								textIndent: this.$w.setPx(this.attr.textIndent),
+								letterSpacing: this.$w.setPx(this.attr.letterSpacing),
+							};
+						}
 					})()
 				);
 			},
