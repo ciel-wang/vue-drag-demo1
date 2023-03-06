@@ -1,6 +1,6 @@
 <template>
 	<div :style="[styleSizeName]" style="overflow: hidden">
-		<div :style="styleName">{{ dataChart }}</div>
+		<div :style="styleName">{{ dataChart.value }}</div>
 	</div>
 </template>
 

@@ -16,13 +16,14 @@
 		</el-menu>
 
 		<div>
-			<div class="w_btn w_btn1">预 览</div>
+			<div class="w_btn w_btn1" @click="handleView">预 览</div>
 			<div class="w_btn w_btn2" @click="handlerSave">保 存</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import html2canvas from 'html2canvas';
 import { baseList } from '@/components/config';
 import { nanoid } from 'nanoid';
 
@@ -39,6 +40,12 @@ export default {
 		};
 	},
 	methods: {
+		handleView() {
+			html2canvas(document.getElementById('canvasId')).then((canvas) => {
+				let url = canvas.toDataURL('image/jpg');
+				this.$w.$ImagePreview([{ url }], 0);
+			});
+		},
 		handleAdd(option, first = false) {
 			let obj = this.$w.deepClone(option);
 			obj.left = 0;

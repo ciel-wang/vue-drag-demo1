@@ -32,7 +32,10 @@ export const baseList = [
 					top: 0,
 					left: 0,
 					index: '',
-					data: '文本框',
+					data: {
+						value: '静态文本',
+						dataKey: '',
+					},
 					attr: {
 						width: 120,
 						height: 60,
@@ -41,6 +44,7 @@ export const baseList = [
 						fontSize: 26,
 						fontWeight: 'normal',
 						color: '#00',
+						dataType: 'jt',
 					},
 				},
 			},

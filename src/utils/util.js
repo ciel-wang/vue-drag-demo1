@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import contextmenu from './contextmenu';
+import $ImagePreview from '@/views/image-preview/index.js';
 
 export function swap(arr, i, j) {
 	const temp = arr[i];
@@ -102,6 +103,22 @@ export function validatenull(val) {
 	}
 	return false;
 }
+export const typeList = {
+	img: /\.(gif|jpg|jpeg|png|webp|svg|GIF|JPG|JPEG|PNG|WEBP|SVG)/,
+	video: /\.(swf|avi|flv|mpg|rm|mov|wav|asf|3gp|mkv|rmvb|ogg|mp4)/,
+	audio: /\.(mp3|wav|MP3|WAV)/,
+};
+export const isMediaType = (url, type) => {
+	if (validatenull(url)) return;
+	if (typeList.audio.test(url) || type == 'audio') {
+		return 'audio';
+	} else if (typeList.video.test(url) || type == 'video') {
+		return 'video';
+	} else if (typeList.img.test(url) || type == 'img' || url.startsWith('data:image')) {
+		return 'img';
+	}
+	return;
+};
 
 export const setPx = (val, defval = '') => {
 	if (validatenull(val)) val = defval;
@@ -117,6 +134,7 @@ export default function (Vue) {
 		setPx,
 		deepClone,
 		validatenull,
+		$ImagePreview,
 	};
 	Vue.directive('contextmenu', contextmenu);
 }

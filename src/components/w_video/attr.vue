@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-form-item label="地址">
-			<el-input v-model="contain.activeAttr.data" type="textarea" :rows="3" />
+			<el-input v-model="contain.activeObj.data" type="textarea" :rows="3" />
 		</el-form-item>
 		<el-form-item label="自动播放">
 			<el-switch v-model="contain.activeAttr.autoplay"></el-switch>
