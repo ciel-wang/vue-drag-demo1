@@ -52,6 +52,11 @@
 				</el-form-item>
 			</el-collapse-item>
 		</el-collapse>
+		<el-form-item label="列显隐">
+			<el-checkbox-group v-model="column" @change="columnChange">
+				<el-checkbox v-for="item in columnDic" :key="item.prop" :label="item.prop" :checked="isChecked(item)">{{ item.label }}</el-checkbox>
+			</el-checkbox-group>
+		</el-form-item>
 	</div>
 </template>
 <script>
@@ -65,7 +70,27 @@ export default {
 				{ label: '居中', value: 'center' },
 				{ label: '右对齐', value: 'right' },
 			],
+			column: [],
+			columnDic: [
+				{ prop: 'subject', label: '会议主题' },
+				{ prop: 'conferenceName', label: '会议室名称' },
+				{ prop: 'meetingTime', label: '会议时间' },
+				{ prop: 'applicatEmpName', label: '申请人' },
+				{ prop: 'compereEmpName', label: '主持人' },
+			],
 		};
+	},
+	methods: {
+		isChecked(item) {
+			return this.contain.activeAttr.column.some((v) => v.prop === item.prop);
+		},
+		columnChange(e) {
+			let arr2 = this.columnDic.reduce((prev, cur) => {
+				let flag = e.some((v) => v === cur.prop);
+				return flag ? prev.concat(cur) : prev;
+			}, []);
+			this.contain.activeAttr.column = arr2;
+		},
 	},
 };
 </script>

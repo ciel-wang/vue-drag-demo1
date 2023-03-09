@@ -30,8 +30,11 @@ export default {
 	data() {
 		return {
 			dataKeyDic: [
-				{ value: 'mettingRoom', label: '会议室名称' },
-				{ value: '2', label: 'shuju2' },
+				{ value: 'conferenceName', label: '会议室名称' },
+				{ value: 'subject', label: '会议主题' },
+				{ value: 'applicatEmpName', label: '预约人' },
+				{ value: 'meetingTime', label: '会议时间' },
+				{ value: 'limitMaxCount', label: '可容纳人数' },
 			],
 		};
 	},

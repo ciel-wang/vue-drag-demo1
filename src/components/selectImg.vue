@@ -13,32 +13,23 @@
 <script>
 import { imgOption } from './config';
 export default {
-	props: {
-		contain: {
-			default: () => ({}),
-			type: Object,
-		},
-	},
 	data() {
 		return {
 			imgVisible: false,
 			action: '',
 			imgActive: 0,
 			imgOption,
+			imgObj: '',
 		};
 	},
 	methods: {
-		openImgDialog(type) {
+		openImgDialog(imgObj, type) {
+			this.imgObj = imgObj;
 			this.imgActive = type === 'bg' ? 0 : type === 'border' ? 1 : 2;
 			this.imgVisible = true;
 		},
 		handleSetimg(value) {
-			if (this.imgActive == 0) {
-				this.contain.config.backgroundImg = value;
-			} else if (this.imgActive == 2) {
-				this.contain.activeObj.data = value;
-			} else {
-			}
+			this.$emit('change', value, this.imgObj);
 			this.imgVisible = false;
 		},
 		onSuccess(res) {

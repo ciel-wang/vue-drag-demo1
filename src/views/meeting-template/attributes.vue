@@ -16,11 +16,10 @@
 					<el-color-picker v-model="contain.config.backgroundColor" show-alpha></el-color-picker>
 				</el-form-item>
 				<el-form-item label="背景图片">
-					<img :src="contain.config.backgroundImg" alt="" width="60%" />
+					<img :src="contain.config.backgroundImg" alt="" width="60%" @click="contain.handleOpenImg('config.backgroundImg', 'bg')" />
 					<el-input v-model="contain.config.backgroundImg" size="small" style="width: 90%">
-						<el-button slot="append" icon="el-icon-picture" @click="openImgDialog"></el-button>
+						<el-button slot="append" icon="el-icon-picture" @click="contain.handleOpenImg('config.backgroundImg', 'bg')"></el-button>
 					</el-input>
-					<imgList ref="imgListRef" :contain="contain"></imgList>
 				</el-form-item>
 				<el-form-item label="字体大小">
 					<el-input-number v-model="contain.config.fontSize" :min="1" :precision="0" :controls="false"></el-input-number>
@@ -88,21 +87,15 @@
 <script>
 import component from '../../components/attr.js';
 import commomAttr from './commomAttr.vue';
-import imgList from '@/components/selectImg.vue';
 
 export default {
 	mixins: [component],
-	components: { commomAttr, imgList },
+	components: { commomAttr },
 	inject: ['contain'],
 	provide() {
 		return {
 			contain: this.contain,
 		};
-	},
-	methods: {
-		openImgDialog() {
-			this.$refs.imgListRef.openImgDialog('bg');
-		},
 	},
 };
 </script>

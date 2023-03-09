@@ -28,7 +28,7 @@ export default (() => {
 					(() => {
 						if (this.attr.letterSpacing) {
 							return {
-								textIndent: this.$w.setPx(this.attr.textIndent),
+								textIndent: this.$w.setPx(this.attr.letterSpacing),
 								letterSpacing: this.$w.setPx(this.attr.letterSpacing),
 							};
 						}

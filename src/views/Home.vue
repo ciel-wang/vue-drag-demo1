@@ -1,5 +1,6 @@
 <template>
 	<el-container class="u-font-12">
+		<imgList ref="imgListRef" @change="handleSetimg"></imgList>
 		<el-header height="70px">
 			<top></top>
 		</el-header>
@@ -35,6 +36,7 @@
 </template>
 
 <script>
+import imgList from '@/components/selectImg.vue';
 import top from './meeting-template/top.vue';
 import mainContainer from './meeting-template/mainContainer.vue';
 import attributes from './meeting-template/attributes.vue';
@@ -42,7 +44,7 @@ import contextMenu from './meeting-template/contextMenu.vue';
 import { config } from '@/components/config.js';
 
 export default {
-	components: { top, mainContainer, attributes, contextMenu },
+	components: { top, mainContainer, attributes, contextMenu, imgList },
 	name: 'Home',
 	provide() {
 		return {
@@ -66,6 +68,30 @@ export default {
 		},
 	},
 	methods: {
+		//打开图库
+		handleOpenImg(item, type) {
+			this.$refs.imgListRef.openImgDialog(item, type);
+		},
+		//图库框回调赋值
+		handleSetimg(val, type) {
+			let params = type.split('.')[1];
+			if (type.includes('config')) {
+				this.config[params] = val;
+			} else if (type.includes('activeObj.data.value')) {
+				this.activeObj.data.value = val;
+			} else if (type.includes('activeObj.data#')) {
+				let arr = type.split('#');
+				if (arr.length === 2 && arr[1]) {
+					this.activeObj.data[arr[1]].url = val;
+				} else {
+					this.activeObj.data.push({ url: val, text: '' });
+				}
+			} else if (type.includes('activeObj.data')) {
+				this.activeObj.data = val;
+			} else if (type.includes('activeObj')) {
+				this.activeObj[params] = val;
+			}
+		},
 		findlist(index) {
 			return this.componentData.find((ele) => ele.index == index) || {};
 		},

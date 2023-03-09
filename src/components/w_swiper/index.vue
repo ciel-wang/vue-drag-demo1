@@ -9,8 +9,8 @@
 		:direction="attr.direction"
 	>
 		<el-carousel-item v-for="(item, index) in dataChart" :key="index">
-			<img :src="item.value" draggable="false" width="100%" height="100%" />
-			<h3 v-if="attr.isShowText" class="label_class">{{ item.label || 123 }}</h3>
+			<img :src="item.url" draggable="false" width="100%" height="100%" />
+			<h3 v-if="attr.isShowText" class="label_class">{{ item.text || 123 }}</h3>
 		</el-carousel-item>
 	</el-carousel>
 </template>

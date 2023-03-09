@@ -18,7 +18,7 @@ function concat(prop, count, type, extend = [], defaults) {
 	return list;
 }
 //加载图片素材库
-export const imgOption = [concat('bg', 18, 'png'), concat('border', 16, 'png'), concat('source', 16, 'png'), concat('banner', 10, 'png')];
+export const imgOption = [concat('bg', 10, 'jpg', [1], 'png'), concat('border', 16, 'png'), concat('source', 4, 'jpg')];
 
 export const baseList = [
 	{
@@ -131,7 +131,20 @@ export const baseList = [
 					top: 0,
 					left: 0,
 					index: '',
-					data: ['/img/bg/bg1.png', '/img/bg/bg1.png', '/img/bg/bg1.png'],
+					data: [
+						{
+							url: '/img/source/source1.jpg',
+							text: '',
+						},
+						{
+							url: '/img/source/source2.jpg',
+							text: '',
+						},
+						{
+							url: '/img/source/source3.jpg',
+							text: '',
+						},
+					],
 					attr: {
 						width: 420,
 						height: 220,
@@ -141,7 +154,7 @@ export const baseList = [
 						indicatorPosition: 'none',
 						isCard: true,
 						direction: 'horizontal',
-						isShowText: true,
+						isShowText: false,
 					},
 				},
 			},
@@ -157,7 +170,7 @@ export const baseList = [
 						width: 300,
 						height: 200,
 						autoplay: true,
-						controls: true,
+						controls: false,
 						loop: true,
 					},
 				},
@@ -176,10 +189,34 @@ export const baseList = [
 					left: 0,
 					index: '',
 					data: [
-						{ type1: '数据1', type2: '数据1', type3: '数据1', type4: '数据1' },
-						{ type1: '数据2', type2: '数据2', type3: '数据2', type4: '数据2' },
-						{ type1: '数据3', type2: '数据3', type3: '数据3', type4: '数据3' },
-						{ type1: '数据4', type2: '数据4', type3: '数据4', type4: '数据4' },
+						{
+							subject: '会议主题1',
+							conferenceName: '会议室名称1',
+							meetingTime: '会议时间1',
+							applicatEmpName: '申请人1',
+							compereEmpName: '主持人1',
+						},
+						{
+							subject: '会议主题2',
+							conferenceName: '会议室名称2',
+							meetingTime: '会议时间2',
+							applicatEmpName: '申请人2',
+							compereEmpName: '主持人2',
+						},
+						{
+							subject: '会议主题3',
+							conferenceName: '会议室名称3',
+							meetingTime: '会议时间3',
+							applicatEmpName: '申请人3',
+							compereEmpName: '主持人3',
+						},
+						{
+							subject: '会议主题4',
+							conferenceName: '会议室名称4',
+							meetingTime: '会议时间4',
+							applicatEmpName: '申请人4',
+							compereEmpName: '主持人4',
+						},
 					],
 					attr: {
 						width: 600,
@@ -200,11 +237,62 @@ export const baseList = [
 						scrollSpeed: 1,
 						count: 4,
 						column: [
-							{ label: '列1', prop: 'type1' },
-							{ label: '列2', prop: 'type2' },
-							{ label: '列3', prop: 'type3' },
-							{ label: '列4', prop: 'type4' },
+							{ prop: 'subject', label: '会议主题' },
+							{ prop: 'conferenceName', label: '会议室名称' },
+							{ prop: 'meetingTime', label: '会议时间' },
+							{ prop: 'applicatEmpName', label: '申请人' },
+							{ prop: 'compereEmpName', label: '主持人' },
 						],
+					},
+				},
+			},
+		],
+	},
+	{
+		label: '其他',
+		icon: '',
+		children: [
+			{
+				label: '密码开门',
+				option: {
+					name: 'wButton',
+					top: 0,
+					left: 0,
+					index: '',
+					data: {
+						value: '密码开门',
+						type: 'passwordBtn',
+					},
+					attr: {
+						width: 100,
+						height: 60,
+						textAlign: 'center',
+						letterSpacing: '',
+						fontSize: 26,
+						fontWeight: 'normal',
+						color: '#00',
+					},
+				},
+			},
+			{
+				label: '呼叫服务',
+				option: {
+					name: 'wButton',
+					top: 0,
+					left: 0,
+					index: '',
+					data: {
+						value: '呼叫服务',
+						type: 'serviceBtn',
+					},
+					attr: {
+						width: 100,
+						height: 60,
+						textAlign: 'center',
+						letterSpacing: '',
+						fontSize: 26,
+						fontWeight: 'normal',
+						color: '#00',
 					},
 				},
 			},

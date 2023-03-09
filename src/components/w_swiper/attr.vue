@@ -16,8 +16,23 @@
 			<el-radio v-model="contain.activeAttr.direction" label="horizontal">横方向</el-radio>
 			<el-radio v-model="contain.activeAttr.direction" label="vertical">垂直方向</el-radio>
 		</el-form-item>
-		<el-form-item label="显示文字">
+		<!-- <el-form-item label="显示文字">
 			<el-switch v-model="contain.activeAttr.isShowText"></el-switch>
+		</el-form-item> -->
+		<el-form-item label="轮播列表">
+			<template v-if="contain.activeObj.data.length">
+				<img
+					v-for="(item, index) in contain.activeObj.data"
+					:key="index"
+					:src="item.url"
+					alt=""
+					width="60%"
+					@click="contain.handleOpenImg('activeObj.data#' + index, 'img')"
+				/>
+			</template>
+			<div>
+				<el-button type="primary" @click="contain.handleOpenImg('activeObj.data#', 'img')">添加1张</el-button>
+			</div>
 		</el-form-item>
 	</div>
 </template>
