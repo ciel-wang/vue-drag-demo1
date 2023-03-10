@@ -121,5 +121,15 @@ export default {
 		border-bottom: 2px solid #e4e7ed;
 		color: #409eff;
 	}
+	.el-collapse-item__wrap,
+	.el-collapse {
+		border: none;
+	}
+	.el-checkbox__label {
+		font-size: 12px;
+	}
+	.el-select {
+		width: 130px;
+	}
 }
 </style>

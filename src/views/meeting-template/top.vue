@@ -1,6 +1,6 @@
 <template>
 	<div class="w_toolbar">
-		<el-menu class="u-width-60" mode="horizontal" active-text-color="#409EFF">
+		<el-menu class="u-width-40" mode="horizontal" active-text-color="#409EFF">
 			<el-submenu :index="index + 'menu'" v-for="(item, index) in baseList" :key="index">
 				<template slot="title">{{ item.label }}</template>
 				<el-menu-item
@@ -14,6 +14,8 @@
 				</el-menu-item>
 			</el-submenu>
 		</el-menu>
+
+		<div class="u-width-35 u-font-16 u-text-left" style="color: #67c23a">空闲中模板</div>
 
 		<div>
 			<div class="w_btn w_btn1" @click="handleView">预 览</div>
@@ -57,7 +59,9 @@ export default {
 				this.contain.componentData.push(obj);
 			}
 		},
-		handlerSave() {},
+		handlerSave() {
+			console.log(this.contain.componentData, this.contain.config);
+		},
 	},
 };
 </script>
@@ -83,6 +87,9 @@ export default {
 	}
 	.w_btn2 {
 		background-color: #409eff;
+	}
+	.el-menu.el-menu--horizontal {
+		border: none;
 	}
 }
 </style>

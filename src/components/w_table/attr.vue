@@ -50,13 +50,15 @@
 				<el-form-item label="偶行颜色">
 					<el-color-picker v-model="contain.activeAttr.nthColor" show-alpha></el-color-picker>
 				</el-form-item>
+				<el-form-item label="列显隐">
+					<el-checkbox-group v-model="column" @change="columnChange">
+						<el-checkbox v-for="item in columnDic" :key="item.prop" :label="item.prop" :checked="isChecked(item)">{{
+							item.label
+						}}</el-checkbox>
+					</el-checkbox-group>
+				</el-form-item>
 			</el-collapse-item>
 		</el-collapse>
-		<el-form-item label="列显隐">
-			<el-checkbox-group v-model="column" @change="columnChange">
-				<el-checkbox v-for="item in columnDic" :key="item.prop" :label="item.prop" :checked="isChecked(item)">{{ item.label }}</el-checkbox>
-			</el-checkbox-group>
-		</el-form-item>
 	</div>
 </template>
 <script>

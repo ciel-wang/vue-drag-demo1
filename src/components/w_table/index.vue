@@ -10,6 +10,7 @@
 		:show-header="attr.showHeader"
 		:header-row-style="headerRowStyle"
 		:header-cell-style="headerCellStyle"
+		:style="{ '--height': attr.border ? '1px' : '0px' }"
 	>
 		<el-table-column type="index" label="序号" header-align="center" align="center" v-if="attr.index" :width="attr.indexWidth || 70">
 			<span slot-scope="{ $index }">{{ $index + 1 }}</span>
@@ -55,6 +56,7 @@ export default {
 				color: this.attr.bodyColor,
 				textAlign: column.type == 'index' ? 'center' : this.attr.bodyTextAlign,
 				backgroundColor: rowIndex % 2 == 0 ? this.attr.othColor : this.attr.nthColor,
+				border: this.attr.border ? '' : 'none',
 			};
 		},
 		rowStyle() {
@@ -73,6 +75,7 @@ export default {
 				backgroundColor: this.attr.headerBackground,
 				color: this.attr.headerColor,
 				textAlign: column.type == 'index' ? 'center' : this.attr.headerTextAlign,
+				border: this.attr.border ? '' : 'none',
 			};
 		},
 	},
@@ -90,5 +93,8 @@ export default {
 }
 .w_table {
 	background-color: transparent !important;
+}
+.el-table::before {
+	height: var(--height);
 }
 </style>
