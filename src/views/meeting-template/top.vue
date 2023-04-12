@@ -8,7 +8,7 @@
 					:key="cindex"
 					class="menu-inline"
 					:index="`${index}-${cindex}`"
-					@click="handleAdd(citem.option, true)"
+					@click="handleAdd(citem.option)"
 				>
 					<div>{{ citem.label }}</div>
 				</el-menu-item>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import html2canvas from 'html2canvas';
 import { baseList } from '@/components/config';
 import { nanoid } from 'nanoid';
 
@@ -42,11 +41,9 @@ export default {
 		};
 	},
 	methods: {
-		handleView() {
-			html2canvas(document.getElementById('canvasId')).then((canvas) => {
-				let url = canvas.toDataURL('image/jpg');
-				this.$w.$ImagePreview([{ url }], 0);
-			});
+		async handleView() {
+			let img = await this.contain.getImg();
+			this.$w.$ImagePreview([{ url: img }], 0);
 		},
 		handleAdd(option, first = false) {
 			let obj = this.$w.deepClone(option);
@@ -60,7 +57,7 @@ export default {
 			}
 		},
 		handlerSave() {
-			console.log(this.contain.componentData, this.contain.config);
+			this.contain.submitData();
 		},
 	},
 };

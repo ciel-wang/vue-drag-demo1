@@ -57,7 +57,7 @@ export default {
 				(() => {
 					if (this.contain.config.backgroundImg) {
 						return {
-							background: `url(${this.contain.config.backgroundImg}) 0% 0% / 100% 100% rgb(3, 12, 59)`,
+							backgroundImage: `url(${this.contain.config.backgroundImg})`,
 						};
 					}
 					return;
@@ -74,5 +74,7 @@ export default {
 	top: 4%;
 	left: 50%;
 	transform: translateX(-50%);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 </style>

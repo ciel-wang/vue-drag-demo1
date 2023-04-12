@@ -17,7 +17,7 @@
 				</el-form-item>
 				<el-form-item label="背景图片">
 					<img :src="contain.config.backgroundImg" alt="" width="60%" @click="contain.handleOpenImg('config.backgroundImg', 'bg')" />
-					<el-input v-model="contain.config.backgroundImg" size="small" style="width: 90%">
+					<el-input v-model="contain.config.backgroundImg" clearable size="small" style="width: 90%">
 						<el-button slot="append" icon="el-icon-picture" @click="contain.handleOpenImg('config.backgroundImg', 'bg')"></el-button>
 					</el-input>
 				</el-form-item>

@@ -55,7 +55,10 @@ export const baseList = [
 					top: 0,
 					left: 0,
 					index: '',
-					data: '跑马灯',
+					data: {
+						value: '跑马灯',
+						dataKey: '',
+					},
 					attr: {
 						width: 100,
 						height: 50,
@@ -239,7 +242,7 @@ export const baseList = [
 						column: [
 							{ prop: 'subject', label: '会议主题' },
 							{ prop: 'conferenceName', label: '会议室名称' },
-							{ prop: 'meetingTime', label: '会议时间' },
+							{ prop: 'meetingTime', label: '会议时间', width: 160 },
 							{ prop: 'applicatEmpName', label: '申请人' },
 							{ prop: 'compereEmpName', label: '主持人' },
 						],

@@ -21,7 +21,7 @@ export default {
 			return this.attr.scroll || false;
 		},
 		textWidth() {
-			const textLen = (this.dataChart || '').length;
+			const textLen = (this.dataChart.value || '').length;
 			return textLen * this.attr.fontSize;
 		},
 		styleName() {

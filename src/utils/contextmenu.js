@@ -9,8 +9,10 @@ export default (() => {
 					divTop = e.clientY;
 				let client_width = document.documentElement.clientWidth;
 				let client_height = document.documentElement.clientHeight;
-				let dialogDom_width = dialogDom.offsetWidth;
-				let dialogDom_height = dialogDom.offsetHeight;
+				// let dialogDom_width = dialogDom.offsetWidth;//右键菜单宽度
+				// let dialogDom_height = dialogDom.offsetHeight;//右键菜单高度
+				let dialogDom_width = 200; //右键菜单宽度
+				let dialogDom_height = 242; //右键菜单高度
 				let calcWidth = client_width - divLeft - dialogDom_width;
 				let calcHeight = client_height - divTop - dialogDom_height;
 				if (calcHeight < 0) {
@@ -46,6 +48,7 @@ export default (() => {
 			let event = binding.value.event;
 			let value = binding.value.value;
 			dialogDom = document.getElementById(id);
+
 			if (!dialogDom) return;
 			dialogDom.style.display = 'none';
 			setEvent(el, value, event, true);

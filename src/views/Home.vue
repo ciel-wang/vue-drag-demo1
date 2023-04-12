@@ -6,7 +6,25 @@
 		</el-header>
 
 		<el-container class="main">
-			<el-aside width="250px" class="u-p-10">Aside</el-aside>
+			<el-aside width="250px" class="u-p-10">
+				<p class="u-m-t-10">空闲中模板</p>
+				<div class="el_img_class" :class="[activeStatus === 'free' ? 'active' : '']" @click="changeTemplate('free')">
+					<el-image fit="contain" :src="freeImg">
+						<div slot="error" class="image-slot">
+							<i class="el-icon-picture-outline"></i>
+						</div>
+					</el-image>
+				</div>
+
+				<p>进行中模板</p>
+				<div class="el_img_class" :class="[activeStatus === 'progress' ? 'active' : '']" @click="changeTemplate('progress')">
+					<el-image fit="contain" :src="progressImg">
+						<div slot="error" class="image-slot">
+							<i class="el-icon-picture-outline"></i>
+						</div>
+					</el-image>
+				</div>
+			</el-aside>
 
 			<el-main>
 				<div @mousedown="handleMouseDown">
@@ -36,12 +54,14 @@
 </template>
 
 <script>
+import html2canvas from 'html2canvas';
 import imgList from '@/components/selectImg.vue';
 import top from './meeting-template/top.vue';
 import mainContainer from './meeting-template/mainContainer.vue';
 import attributes from './meeting-template/attributes.vue';
 import contextMenu from './meeting-template/contextMenu.vue';
 import { config } from '@/components/config.js';
+import { getStorage, setStorage } from '@/utils/util.js';
 
 export default {
 	components: { top, mainContainer, attributes, contextMenu, imgList },
@@ -56,6 +76,9 @@ export default {
 			activeIndex: null,
 			componentData: [],
 			config,
+			freeImg: '',
+			progressImg: '',
+			activeStatus: 'free',
 		};
 	},
 	computed: {
@@ -68,6 +91,73 @@ export default {
 		},
 	},
 	methods: {
+		changeTemplate(value) {
+			if (this.activeStatus === value) return;
+			let data = getStorage({ name: 'data', type: true });
+			let diff = this.diffData(value, data);
+			if (!diff) return this.getData(value, data);
+			this.$confirm('当前修改暂未保存，是否保存？', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}).then(async () => {
+				await this.submitData(data);
+				let newData = getStorage({ name: 'data', type: true });
+				this.getData(value, newData);
+			});
+		},
+		getData(value, data) {
+			if (data) {
+				this.config = data.config;
+				if (value === 'free') {
+					this.componentData = data?.freeComponentData || [];
+				} else {
+					this.componentData = data?.processComponentData || [];
+				}
+			}
+			this.activeStatus = value;
+		},
+		diffData(type, obj) {
+			let newConfig = JSON.stringify(this.config);
+			let preConfig = JSON.stringify(obj?.config || this.config);
+			if (newConfig !== preConfig) return true;
+			let newData = JSON.stringify(this.componentData);
+			let preData = '';
+			if (type === 'free') {
+				preData = JSON.stringify(obj?.processComponentData || []);
+			} else {
+				preData = JSON.stringify(obj?.freeComponentData || []);
+			}
+			if (newData !== preData) return true;
+			return false;
+		},
+		async submitData(obj = {}) {
+			let img = await this.getImg();
+			if (this.activeStatus === 'free') {
+				this.freeImg = img;
+				obj = {
+					...obj,
+					freeImg: img,
+					freeComponentData: this.componentData,
+					config: this.config,
+				};
+			} else {
+				this.progressImg = img;
+				obj = {
+					...obj,
+					progressImg: img,
+					processComponentData: this.componentData,
+					config: this.config,
+				};
+			}
+			setStorage({ name: 'data', content: obj, type: true });
+		},
+		getImg() {
+			return html2canvas(document.getElementById('canvasId')).then((canvas) => {
+				let url = canvas.toDataURL('image/jpg');
+				return url;
+			});
+		},
 		//打开图库
 		handleOpenImg(item, type) {
 			this.$refs.imgListRef.openImgDialog(item, type);
@@ -113,6 +203,25 @@ export default {
 <style lang="scss">
 .main {
 	height: calc(100vh - 70px);
+	.el_img_class {
+		width: 100%;
+		text-align: center;
+		font-size: 30px;
+		color: #909399;
+		cursor: pointer;
+		padding: 20px;
+		margin-bottom: 30px;
+		border: 1px solid #f5f7fa;
+		background-color: #f5f7fa;
+		border-radius: 6px;
+	}
+	.image-slot {
+		width: 100%;
+		height: 100%;
+	}
+	.active {
+		border-color: 1px solid #106fff;
+	}
 }
 .el-header {
 	border-bottom: 1px solid #e8e8e8;

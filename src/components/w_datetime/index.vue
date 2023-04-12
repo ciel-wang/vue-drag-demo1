@@ -1,5 +1,5 @@
 <template>
-	<div>{{ nowDate }}</div>
+	<div :style="[styleSizeName]">{{ nowDate }}</div>
 </template>
 
 <script>
