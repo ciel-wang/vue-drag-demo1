@@ -3,6 +3,9 @@
 		<p class="w_title">{{ contain.activeIndex ? '属性' : '画布属性' }}</p>
 		<template v-if="!contain.activeIndex">
 			<el-form label-width="60px" label-position="left" size="mini">
+				<el-form-item label="名称">
+					<el-input v-model="contain.templateName" clearable size="small"></el-input>
+				</el-form-item>
 				<el-form-item label="宽度">
 					<el-input-number v-model="contain.config.width" :min="0" :precision="2" :controls="false"></el-input-number>
 				</el-form-item>

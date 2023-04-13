@@ -1,15 +1,19 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { getStorage, setStorage } from '@/utils/util.js';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+	state: {
+		token: getStorage({ name: 'token', type: true }) || '',
+	},
+	mutations: {
+		SET_TOKEN: (state, token) => {
+			state.token = token;
+			setStorage({ name: 'token', content: state.token, type: true });
+		},
+	},
+	actions: {},
+	modules: {},
+});

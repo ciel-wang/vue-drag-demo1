@@ -70,11 +70,13 @@ export default {
 
 <style>
 .w_main {
-	position: absolute;
-	top: 4%;
-	left: 50%;
-	transform: translateX(-50%);
+	/* position: absolute;
+	top: 10px;
+	left: 10px;
+	transform: translateX(-50%); */
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	margin: auto;
+	position: relative;
 }
 </style>

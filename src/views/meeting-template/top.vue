@@ -15,7 +15,9 @@
 			</el-submenu>
 		</el-menu>
 
-		<div class="u-width-35 u-font-16 u-text-left" style="color: #67c23a">空闲中模板</div>
+		<div class="u-width-35 u-font-16 u-text-left" :style="{ color: contain.activeStatus === 'free' ? '#67c23a' : 'red' }">
+			{{ contain.activeStatus === 'free' ? '空闲中模板' : '进行中模板' }}
+		</div>
 
 		<div>
 			<div class="w_btn w_btn1" @click="handleView">预 览</div>

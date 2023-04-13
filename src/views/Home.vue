@@ -28,7 +28,7 @@
 
 			<el-main>
 				<div @mousedown="handleMouseDown">
-					<svg class="grid" width="100%" height="99%" xmlns="http://www.w3.org/2000/svg">
+					<!-- <svg class="grid" width="100%" height="99%" xmlns="http://www.w3.org/2000/svg">
 						<defs>
 							<pattern id="smallGrid" width="7.236328125" height="7.236328125" patternUnits="userSpaceOnUse">
 								<path d="M 7.236328125 0 L 0 0 0 7.236328125" fill="none" stroke="rgba(207, 207, 207, 0.3)" stroke-width="1"></path>
@@ -39,7 +39,7 @@
 							</pattern>
 						</defs>
 						<rect width="100%" height="100%" fill="url(#grid)"></rect>
-					</svg>
+					</svg> -->
 					<mainContainer></mainContainer>
 				</div>
 			</el-main>
@@ -61,7 +61,8 @@ import mainContainer from './meeting-template/mainContainer.vue';
 import attributes from './meeting-template/attributes.vue';
 import contextMenu from './meeting-template/contextMenu.vue';
 import { config } from '@/components/config.js';
-import { getStorage, setStorage } from '@/utils/util.js';
+import { getStorage, setStorage, getQueryString } from '@/utils/util.js';
+import { reqTemplateDetails, updateTemplate } from '@/utils/api.js';
 
 export default {
 	components: { top, mainContainer, attributes, contextMenu, imgList },
@@ -75,11 +76,29 @@ export default {
 		return {
 			activeIndex: null,
 			componentData: [],
+			templateName: '',
 			config,
 			freeImg: '',
 			progressImg: '',
 			activeStatus: 'free',
 		};
+	},
+	created() {
+		let token = getQueryString('Blade-Auth');
+		if (token) this.$store.commit('SET_TOKEN', token);
+		let id = getQueryString('id');
+		reqTemplateDetails({ id }).then((r) => {
+			if (r.data.code == 200) {
+				let d = r.data.data;
+				let extJson = d.extJson && JSON.parse(d.extJson);
+				this.config = { ...this.config, ...extJson.config };
+				this.freeImg = d.idleCoverImg;
+				this.progressImg = d.inUseCoverImg;
+				this.templateName = d.templateName;
+				this.activeStatus = 'free';
+				this.componentData = extJson?.freeComponentData || [];
+			}
+		});
 	},
 	computed: {
 		activeAttr() {
@@ -234,8 +253,12 @@ export default {
 	padding: 0 !important;
 	& > div {
 		height: 100%;
+		width: 100%;
+		box-sizing: border-box;
 		position: relative;
 		background-color: #f8f8f8;
+		padding: 20px;
+		overflow: auto;
 	}
 }
 </style>
