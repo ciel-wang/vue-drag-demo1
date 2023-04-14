@@ -29,6 +29,7 @@
 <script>
 import { baseList } from '@/components/config';
 import { nanoid } from 'nanoid';
+import { getStorage } from '@/utils/util.js';
 
 export default {
 	inject: ['contain'],
@@ -43,9 +44,12 @@ export default {
 		};
 	},
 	methods: {
-		async handleView() {
-			let img = await this.contain.getImg();
-			this.$w.$ImagePreview([{ url: img }], 0);
+		handleView() {
+			this.contain.activeIndex = null;
+			this.$nextTick(async () => {
+				let { img } = await this.contain.getImg();
+				this.$w.$ImagePreview([{ url: img }], 0);
+			});
 		},
 		handleAdd(option, first = false) {
 			let obj = this.$w.deepClone(option);
@@ -59,7 +63,11 @@ export default {
 			}
 		},
 		handlerSave() {
-			this.contain.submitData();
+			let data = getStorage({ name: 'data', type: true });
+			this.contain.activeIndex = null;
+			this.$nextTick(() => {
+				this.contain.submitData(data);
+			});
 		},
 	},
 };

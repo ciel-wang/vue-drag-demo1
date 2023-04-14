@@ -12,6 +12,9 @@ axios.interceptors.request.use(
 	(config) => {
 		config.headers['Authorization'] = `Basic saber:saber_secret`;
 		config.headers['Blade-Auth'] = 'bearer ' + store.state.token;
+		if (config.fileType === true) {
+			config.headers['Content-Type'] = 'multipart/form-data';
+		}
 		return config;
 	},
 	(error) => {
@@ -47,5 +50,13 @@ export const reqTemplateDetails = (data) => {
 		url: '/api/iot-hy/template/details',
 		method: 'get',
 		params: { ...data },
+	});
+};
+export const uploadFile = (data) => {
+	return axios({
+		url: '/api/blade-basic/common/upload',
+		method: 'post',
+		data,
+		fileType: true,
 	});
 };

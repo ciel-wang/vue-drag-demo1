@@ -1,6 +1,15 @@
 <template>
 	<el-dialog title="图库" width="80%" :close-on-click-modal="false" :visible.sync="imgVisible">
-		<el-upload class="upload-demo" multiple :on-success="onSuccess" :show-file-list="false" :action="action" list-type="picture">
+		<el-upload
+			class="upload-demo"
+			multiple
+			:on-success="onSuccess"
+			:show-file-list="false"
+			:data="{ mode: 'HY_ROOM_IMG' }"
+			:headers="headers"
+			action="/api/blade-basic/common/upload"
+			list-type="picture"
+		>
 			<el-button size="small" icon="el-icon-upload" type="primary">点击上传</el-button>
 		</el-upload>
 
@@ -16,10 +25,10 @@ export default {
 	data() {
 		return {
 			imgVisible: false,
-			action: '',
 			imgActive: 0,
 			imgOption,
 			imgObj: '',
+			headers: '',
 		};
 	},
 	methods: {
@@ -27,13 +36,16 @@ export default {
 			this.imgObj = imgObj;
 			this.imgActive = type === 'bg' ? 0 : type === 'border' ? 1 : 2;
 			this.imgVisible = true;
+			this.headers = {
+				'Blade-Auth': 'bearer ' + this.$store.state.token,
+			};
 		},
 		handleSetimg(value) {
 			this.$emit('change', value, this.imgObj);
 			this.imgVisible = false;
 		},
 		onSuccess(res) {
-			const url = res.data.link;
+			const url = res?.data?.absUrl;
 			this.imgOption[this.imgActive].unshift({ label: url, value: url });
 		},
 	},

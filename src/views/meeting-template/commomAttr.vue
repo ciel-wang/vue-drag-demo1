@@ -18,7 +18,7 @@ export default {
 	data() {
 		return {
 			styleData: [
-				{ key: 'backgroundColor', label: '背景色' },
+				{ key: 'backgroundColor', label: '背景颜色' },
 				{ key: 'borderWidth', label: '边框宽度' },
 				{ key: 'borderStyle', label: '边框风格' },
 				{ key: 'borderColor', label: '边框颜色' },
@@ -67,7 +67,7 @@ export default {
 	},
 	methods: {
 		isIncludesColor(str) {
-			return str.toLowerCase().includes('color');
+			return ['backgroundcolor', 'color', 'bordercolor'].includes(str.toLowerCase());
 		},
 	},
 };

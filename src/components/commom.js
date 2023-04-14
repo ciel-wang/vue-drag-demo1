@@ -11,29 +11,16 @@ export default (() => {
 		},
 		computed: {
 			styleSizeName() {
-				return Object.assign(
-					{},
-					this.attr,
-					{
-						width: this.$w.setPx(this.attr.width),
-						height: this.$w.setPx(this.attr.height),
-					},
-					(() => {
-						if (this.attr.fontSize) {
-							return {
-								fontSize: this.$w.setPx(this.attr.fontSize),
-							};
-						}
-					})(),
-					(() => {
-						if (this.attr.letterSpacing) {
-							return {
-								paddingLeft: this.$w.setPx(this.attr.letterSpacing),
-								letterSpacing: this.$w.setPx(this.attr.letterSpacing),
-							};
-						}
-					})()
-				);
+				let obj = Object.assign({}, this.attr);
+				for (let i in obj) {
+					if (['width', 'height', 'fontSize', 'letterSpacing', 'borderRadius'].includes(i)) {
+						obj[i] = this.$w.setPx(obj[i]);
+					}
+				}
+				if (obj.letterSpacing) {
+					obj.paddingLeft = this.$w.setPx(obj.letterSpacing);
+				}
+				return obj;
 			},
 		},
 	};

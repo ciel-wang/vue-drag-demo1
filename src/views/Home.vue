@@ -61,8 +61,8 @@ import mainContainer from './meeting-template/mainContainer.vue';
 import attributes from './meeting-template/attributes.vue';
 import contextMenu from './meeting-template/contextMenu.vue';
 import { config } from '@/components/config.js';
-import { getStorage, setStorage, getQueryString } from '@/utils/util.js';
-import { reqTemplateDetails, updateTemplate } from '@/utils/api.js';
+import { getStorage, setStorage, getQueryString, dataURLtoBlob } from '@/utils/util.js';
+import { reqTemplateDetails, updateTemplate, uploadFile } from '@/utils/api.js';
 
 export default {
 	components: { top, mainContainer, attributes, contextMenu, imgList },
@@ -81,6 +81,11 @@ export default {
 			freeImg: '',
 			progressImg: '',
 			activeStatus: 'free',
+			data: {
+				id: '',
+				idleCoverImg: '',
+				inUseCoverImg: '',
+			},
 		};
 	},
 	created() {
@@ -90,13 +95,23 @@ export default {
 		reqTemplateDetails({ id }).then((r) => {
 			if (r.data.code == 200) {
 				let d = r.data.data;
-				let extJson = d.extJson && JSON.parse(d.extJson);
-				this.config = { ...this.config, ...extJson.config };
-				this.freeImg = d.idleCoverImg;
-				this.progressImg = d.inUseCoverImg;
-				this.templateName = d.templateName;
+				this.data = {
+					id,
+					idleCoverImg: d?.idleCoverImg,
+					inUseCoverImg: d?.inUseCoverImg,
+				};
+				let extJson = d?.data?.extJson && JSON.parse(d?.data?.extJson);
+				this.config = { ...this.config, ...extJson?.config };
+				this.freeImg = d?.staticPrefix + d?.data?.idleCoverImg;
+				this.progressImg = d?.staticPrefix + d?.data?.inUseCoverImg;
+				this.templateName = d?.data?.templateName;
 				this.activeStatus = 'free';
 				this.componentData = extJson?.freeComponentData || [];
+				let obj = {
+					...extJson,
+					templateName: d?.data?.templateName,
+				};
+				setStorage({ name: 'data', content: obj, type: true });
 			}
 		});
 	},
@@ -112,6 +127,7 @@ export default {
 	methods: {
 		changeTemplate(value) {
 			if (this.activeStatus === value) return;
+			this.activeIndex = null;
 			let data = getStorage({ name: 'data', type: true });
 			let diff = this.diffData(value, data);
 			if (!diff) return this.getData(value, data);
@@ -129,17 +145,28 @@ export default {
 			if (data) {
 				this.config = data.config;
 				if (value === 'free') {
-					this.componentData = data?.freeComponentData || [];
+					this.componentData = data?.freeComponentData?.length
+						? data?.freeComponentData
+						: data?.processComponentData?.length
+						? data?.processComponentData
+						: [];
 				} else {
-					this.componentData = data?.processComponentData || [];
+					this.componentData = data?.processComponentData?.length
+						? data?.processComponentData
+						: data?.freeComponentData?.length
+						? data?.freeComponentData
+						: [];
 				}
 			}
 			this.activeStatus = value;
 		},
 		diffData(type, obj) {
+			if (this.templateName !== obj?.templateName) return true;
+
 			let newConfig = JSON.stringify(this.config);
 			let preConfig = JSON.stringify(obj?.config || this.config);
 			if (newConfig !== preConfig) return true;
+
 			let newData = JSON.stringify(this.componentData);
 			let preData = '';
 			if (type === 'free') {
@@ -151,30 +178,59 @@ export default {
 			return false;
 		},
 		async submitData(obj = {}) {
-			let img = await this.getImg();
-			if (this.activeStatus === 'free') {
-				this.freeImg = img;
-				obj = {
-					...obj,
-					freeImg: img,
-					freeComponentData: this.componentData,
-					config: this.config,
+			const loading = this.$loading({
+				lock: true,
+				text: '正在保存配置，请稍后',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)',
+			});
+			try {
+				let { img, path } = await this.getImg();
+				let url = await uploadFile({ file: path, mode: 'HY_ROOM_IMG' }).then((r) => {
+					if (r.data.code == 200) return r.data.data.absUrl;
+					return Promise.reject(new Error(r.data.msg));
+				});
+				if (this.activeStatus === 'free') {
+					this.freeImg = img;
+					this.data.idleCoverImg = url;
+					obj = {
+						...obj,
+						freeComponentData: this.componentData,
+						config: this.config,
+						templateName: this.templateName,
+					};
+				} else {
+					this.progressImg = img;
+					this.data.inUseCoverImg = url;
+					obj = {
+						...obj,
+						processComponentData: this.componentData,
+						config: this.config,
+						templateName: this.templateName,
+					};
+				}
+				console.log(obj);
+
+				setStorage({ name: 'data', content: obj, type: true });
+				let data = {
+					...this.data,
+					templateName: this.templateName,
+					extJson: JSON.stringify(obj),
 				};
-			} else {
-				this.progressImg = img;
-				obj = {
-					...obj,
-					progressImg: img,
-					processComponentData: this.componentData,
-					config: this.config,
-				};
+				updateTemplate(data).then((r) => {
+					loading.close();
+					if (r.data.code == 200) return this.$message.success(r.data.msg);
+					return this.$message.error(r.data.msg);
+				});
+			} catch (error) {
+				loading.close();
 			}
-			setStorage({ name: 'data', content: obj, type: true });
 		},
 		getImg() {
 			return html2canvas(document.getElementById('canvasId')).then((canvas) => {
-				let url = canvas.toDataURL('image/jpg');
-				return url;
+				let img = canvas.toDataURL('image/jpg', 0.1);
+				let path = dataURLtoBlob(img, '模板图');
+				return { path, img };
 			});
 		},
 		//打开图库
