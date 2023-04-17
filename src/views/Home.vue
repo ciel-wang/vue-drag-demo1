@@ -95,6 +95,7 @@ export default {
 		reqTemplateDetails({ id }).then((r) => {
 			if (r.data.code == 200) {
 				let d = r.data.data;
+				document.title = d?.data?.templateName;
 				this.data = {
 					id,
 					idleCoverImg: d?.idleCoverImg,
@@ -227,8 +228,12 @@ export default {
 			}
 		},
 		getImg() {
-			return html2canvas(document.getElementById('canvasId')).then((canvas) => {
-				let img = canvas.toDataURL('image/jpg', 0.1);
+			return html2canvas(document.getElementById('canvasId'), {
+				allowTaint: true,
+				backgroundColor: null,
+				useCORS: true,
+			}).then((canvas) => {
+				let img = canvas.toDataURL('image/jpg');
 				let path = dataURLtoBlob(img, '模板图');
 				return { path, img };
 			});
