@@ -92,6 +92,7 @@ export default {
 		let token = getQueryString('Blade-Auth');
 		if (token) this.$store.commit('SET_TOKEN', token);
 		let id = getQueryString('id');
+		if (!id) return;
 		reqTemplateDetails({ id }).then((r) => {
 			if (r.data.code == 200) {
 				let d = r.data.data;
@@ -260,6 +261,8 @@ export default {
 				this.activeObj.data = val;
 			} else if (type.includes('activeObj')) {
 				this.activeObj[params] = val;
+			} else if (type.includes('activeAttr')) {
+				this.activeAttr[params] = val;
 			}
 		},
 		findlist(index) {

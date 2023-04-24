@@ -12,6 +12,14 @@
 				<el-option v-for="item in dataKeyDic" :key="item.value" :label="item.label" :value="item.value"></el-option>
 			</el-select>
 		</el-form-item>
+		<el-form-item label="时间格式" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
+			<el-select v-model="contain.activeAttr.format">
+				<el-option v-for="item in formatDic" :key="item.value" :label="item.label" :value="item.value"></el-option>
+			</el-select>
+		</el-form-item>
+		<el-form-item label="自定义格式" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
+			<el-input v-model="contain.activeAttr.format"> </el-input>
+		</el-form-item>
 		<el-form-item label="开启">
 			<el-switch v-model="contain.activeAttr.scroll"></el-switch>
 		</el-form-item>
@@ -24,6 +32,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
 	name: 'wText',
 	inject: ['contain'],
@@ -37,12 +47,25 @@ export default {
 				{ value: 'meetingTime', label: '会议时间' },
 				{ value: 'limitMaxCount', label: '可容纳人数' },
 			],
+			formatDic: [
+				{ label: '日期', value: 'yyyy-MM-dd' },
+				{ label: '日期+时分', value: 'yyyy-MM-dd HH:mm' },
+				{ label: '日期+时分秒', value: 'yyyy-MM-dd HH:mm:ss' },
+				{ label: '日期(无年)', value: 'MM-dd' },
+				{ label: '时分', value: 'HH:mm' },
+				{ label: '时分秒', value: 'HH:mm:ss' },
+				{ label: '星期', value: 'day' },
+			],
 		};
 	},
 	methods: {
 		dataKeyChange(value) {
 			let item = this.dataKeyDic.find((v) => v.value === value);
-			this.contain.activeObj.data.value = item ? item.label : '';
+			this.contain.activeObj.data.value = item
+				? value == 'meetingTime'
+					? dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss') + '#' + dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
+					: item.label
+				: '';
 		},
 		dataTypeChange(value) {
 			if (value === 'dt') {

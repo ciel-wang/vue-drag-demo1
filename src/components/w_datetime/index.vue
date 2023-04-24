@@ -21,10 +21,5 @@ export default {
 			return dayjs(this.date).format(format);
 		},
 	},
-	created() {
-		// setInterval(() => {
-		//   this.date = new Date();
-		// }, 1000);
-	},
 };
 </script>

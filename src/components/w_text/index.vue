@@ -1,10 +1,12 @@
 <template>
 	<div :style="[styleSizeName]" style="overflow: hidden">
-		<div :style="styleName">{{ dataChart.value }}</div>
+		<div :style="styleName">{{ value }}</div>
 	</div>
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
 	name: 'wText',
 	data() {
@@ -14,6 +16,16 @@ export default {
 		};
 	},
 	computed: {
+		value() {
+			if (this.dataChart.dataKey !== 'meetingTime') return this.dataChart.value;
+			const format = (this.attr.format || 'yyyy-MM-dd hh:mm:ss').replace('dd', 'DD').replace('yyyy', 'YYYY');
+			let arr = this.dataChart.value.split('#');
+			let start = arr.length && arr[0];
+			let end = arr.length && arr[1];
+			start = start && dayjs(start).format(format);
+			end = end && dayjs(end).format(format);
+			return start + '至' + end;
+		},
 		speed() {
 			return this.attr.speed || 100;
 		},
