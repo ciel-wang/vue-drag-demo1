@@ -80,7 +80,7 @@
 			<el-collapse-item title="其他">
 				<el-form label-width="60px" label-position="left" size="mini">
 					<commomAttr></commomAttr>
-					<component :is="contain.activeObj.name + 'Attr'" />
+					<component v-if="!['wCamera'].includes(contain.activeObj.name)" :is="contain.activeObj.name + 'Attr'" />
 				</el-form>
 			</el-collapse-item>
 		</el-collapse>

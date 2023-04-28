@@ -20,6 +20,9 @@
 		<el-form-item label="自定义格式" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
 			<el-input v-model="contain.activeAttr.format"> </el-input>
 		</el-form-item>
+		<el-form-item label="分隔符" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
+			<el-input v-model="contain.activeAttr.separator"> </el-input>
+		</el-form-item>
 		<el-form-item label="开启">
 			<el-switch v-model="contain.activeAttr.scroll"></el-switch>
 		</el-form-item>

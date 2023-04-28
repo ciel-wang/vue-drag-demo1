@@ -11,11 +11,11 @@
 		</el-form-item>
 		<el-form-item label="视频地址">
 			<el-input v-model="contain.activeObj.data" type="textarea" :rows="3" />
-			<el-upload class="u-width-100 u-m-t-10" drag :limit="1" :action="action" :data="data" :on-success="onSuccess">
+			<!-- <el-upload class="u-width-100 u-m-t-10" drag :limit="1" :action="action" :data="data" :on-success="onSuccess">
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 				<div class="el-upload__tip u-m-t-0" slot="tip">只能上传mp4文件</div>
-			</el-upload>
+			</el-upload> -->
 		</el-form-item>
 	</div>
 </template>

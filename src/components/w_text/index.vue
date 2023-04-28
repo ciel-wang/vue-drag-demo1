@@ -24,7 +24,7 @@ export default {
 			let end = arr.length && arr[1];
 			start = start && dayjs(start).format(format);
 			end = end && dayjs(end).format(format);
-			return start + '至' + end;
+			return `${start}${this.attr.separator ? this.attr.separator : '至'}${end}`;
 		},
 		speed() {
 			return this.attr.speed || 100;

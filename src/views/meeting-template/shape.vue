@@ -8,6 +8,7 @@
 			@mousedown.stop="handleMouseDownOnPoint(item, $event)"
 		></div>
 		<slot></slot>
+		<div class="w_mask"></div>
 	</div>
 </template>
 
@@ -233,6 +234,14 @@ export default {
 	.icon-unlock {
 		top: 0;
 		right: 0;
+	}
+	.w_mask {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
 	}
 }
 .active {

@@ -39,7 +39,7 @@ export default {
 	},
 	created() {
 		this.$nextTick(() => {
-			this.headerHeight = parseInt(this.$refs.table.$refs.headerWrapper.clientHeight);
+			this.headerHeight = this.attr.showHeader ? parseInt(this.$refs.table.$refs.headerWrapper.clientHeight) : 0;
 		});
 	},
 	computed: {

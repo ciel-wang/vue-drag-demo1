@@ -65,6 +65,9 @@
 				<el-form-item label="自定义格式">
 					<el-input v-model="contain.activeAttr.format"> </el-input>
 				</el-form-item>
+				<el-form-item label="时间分隔符">
+					<el-input v-model="contain.activeAttr.separator"> </el-input>
+				</el-form-item>
 			</el-collapse-item>
 		</el-collapse>
 	</div>
