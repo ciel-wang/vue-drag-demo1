@@ -49,6 +49,8 @@ export default {
 				{ value: 'applicatEmpName', label: '预约人' },
 				{ value: 'meetingTime', label: '会议时间' },
 				{ value: 'limitMaxCount', label: '可容纳人数' },
+				{ value: 'meetingTimeRemain', label: '当前会议剩余时间' },
+				{ value: 'meetingTimeStart', label: '距会议开始时间' },
 			],
 			formatDic: [
 				{ label: '日期', value: 'yyyy-MM-dd' },

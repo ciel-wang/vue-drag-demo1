@@ -60,7 +60,7 @@ import top from './meeting-template/top.vue';
 import mainContainer from './meeting-template/mainContainer.vue';
 import attributes from './meeting-template/attributes.vue';
 import contextMenu from './meeting-template/contextMenu.vue';
-import { config } from '@/components/config.js';
+import { config, baseList } from '@/components/config.js';
 import { getStorage, setStorage, getQueryString, dataURLtoBlob } from '@/utils/util.js';
 import { reqTemplateDetails, updateTemplate, uploadFile } from '@/utils/api.js';
 
@@ -103,7 +103,7 @@ export default {
 					inUseCoverImg: d?.inUseCoverImg,
 				};
 				let extJson = d?.data?.extJson && JSON.parse(d?.data?.extJson);
-				this.config = { ...this.config, ...extJson?.config };
+				this.config = { ...this.config, ...extJson?.config, ...extJson?.freeConfig };
 				this.freeImg = d?.staticPrefix + d?.data?.idleCoverImg;
 				this.progressImg = d?.staticPrefix + d?.data?.inUseCoverImg;
 				this.templateName = d?.data?.templateName;
@@ -119,7 +119,8 @@ export default {
 	},
 	computed: {
 		activeAttr() {
-			return this.activeObj.attr || {};
+			this.activeObj.attr = { ...this.findArr(), ...this.activeObj.attr };
+			return this.activeObj.attr;
 		},
 		activeObj() {
 			let item = this.findlist(this.activeIndex) || {};
@@ -127,6 +128,14 @@ export default {
 		},
 	},
 	methods: {
+		findArr() {
+			let obj = {};
+			baseList.forEach((item) => {
+				let item2 = item.children.find((v) => v.option.name === this.activeObj.name);
+				if (item2) return (obj = item2.option.attr);
+			});
+			return obj;
+		},
 		changeTemplate(value) {
 			if (this.activeStatus === value) return;
 			this.activeIndex = null;
@@ -145,14 +154,15 @@ export default {
 		},
 		getData(value, data) {
 			if (data) {
-				this.config = data.config;
 				if (value === 'free') {
+					this.config = data?.freeConfig || data?.config;
 					this.componentData = data?.freeComponentData?.length
 						? data?.freeComponentData
 						: data?.processComponentData?.length
 						? data?.processComponentData
 						: [];
 				} else {
+					this.config = data.processConfig || data?.config;
 					this.componentData = data?.processComponentData?.length
 						? data?.processComponentData
 						: data?.freeComponentData?.length
@@ -164,18 +174,18 @@ export default {
 		},
 		diffData(type, obj) {
 			if (this.templateName !== obj?.templateName) return true;
-
 			let newConfig = JSON.stringify(this.config);
-			let preConfig = JSON.stringify(obj?.config || this.config);
-			if (newConfig !== preConfig) return true;
-
 			let newData = JSON.stringify(this.componentData);
+			let preConfig = '';
 			let preData = '';
 			if (type === 'free') {
+				preConfig = JSON.stringify(obj?.processConfig || this.config);
 				preData = JSON.stringify(obj?.processComponentData || []);
 			} else {
+				preConfig = JSON.stringify(obj?.freeConfig || this.config);
 				preData = JSON.stringify(obj?.freeComponentData || []);
 			}
+			if (newConfig !== preConfig) return true;
 			if (newData !== preData) return true;
 			return false;
 		},
@@ -198,7 +208,7 @@ export default {
 					obj = {
 						...obj,
 						freeComponentData: this.componentData,
-						config: this.config,
+						freeConfig: this.config,
 						templateName: this.templateName,
 					};
 				} else {
@@ -207,12 +217,10 @@ export default {
 					obj = {
 						...obj,
 						processComponentData: this.componentData,
-						config: this.config,
+						processConfig: this.config,
 						templateName: this.templateName,
 					};
 				}
-				console.log(obj);
-
 				setStorage({ name: 'data', content: obj, type: true });
 				let data = {
 					...this.data,
@@ -225,12 +233,13 @@ export default {
 					return this.$message.error(r.data.msg);
 				});
 			} catch (error) {
+				this.$message.error('保存失败了');
 				loading.close();
 			}
 		},
 		getImg() {
 			return html2canvas(document.getElementById('canvasId'), {
-				allowTaint: true,
+				allowTaint: false,
 				backgroundColor: null,
 				useCORS: true,
 			}).then((canvas) => {

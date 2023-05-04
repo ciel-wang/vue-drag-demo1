@@ -34,6 +34,7 @@ import {
 	MessageBox,
 	Loading,
 	Image,
+	Scrollbar,
 } from 'element-ui';
 import '@/style/common.scss';
 import '@/style/reset.css';
@@ -71,7 +72,7 @@ Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItem);
 Vue.use(Image);
-
+Vue.use(Scrollbar);
 Vue.config.productionTip = false;
 
 new Vue({
