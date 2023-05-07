@@ -3,6 +3,8 @@ module.exports = {
 	outputDir: 'dist',
 	assetsDir: 'assets',
 	lintOnSave: true,
+	parallel: false,
+	productionSourceMap: false,
 	devServer: {
 		disableHostCheck: true,
 		port: 1790,

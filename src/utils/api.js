@@ -7,10 +7,10 @@ NProgress.configure({
 	showSpinner: false,
 });
 axios.defaults.timeout = 5 * 60 * 1000;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 axios.interceptors.request.use(
 	(config) => {
-		config.headers['Authorization'] = `Basic saber:saber_secret`;
+		config.headers['Authorization'] = `Basic c2FiZXI6c2FiZXJfc2VjcmV0`;
 		config.headers['Blade-Auth'] = 'bearer ' + store.state.token;
 		if (config.fileType === true) {
 			config.headers['Content-Type'] = 'multipart/form-data';

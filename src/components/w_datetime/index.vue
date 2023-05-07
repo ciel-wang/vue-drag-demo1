@@ -9,7 +9,7 @@ export default {
 	data() {
 		return {
 			date: new Date(),
-			weekday: ['天', '一', '二', '三', '四', '五', '六'],
+			weekday: ['日', '一', '二', '三', '四', '五', '六'],
 		};
 	},
 	computed: {

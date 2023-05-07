@@ -369,6 +369,29 @@ export const baseList = [
 				},
 			},
 			{
+				label: '重启设备',
+				option: {
+					name: 'wButton',
+					top: 0,
+					left: 0,
+					index: '',
+					data: {
+						value: '重启设备',
+						type: 'rebootDevice',
+					},
+					attr: {
+						width: 100,
+						height: 60,
+						textAlign: 'center',
+						letterSpacing: '',
+						fontSize: 26,
+						fontWeight: 'normal',
+						color: '#000',
+						lineHeight: 1,
+					},
+				},
+			},
+			{
 				label: '摄像头',
 				option: {
 					name: 'wCamera',

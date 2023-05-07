@@ -11,9 +11,7 @@ export default new Vuex.Store({
 	mutations: {
 		SET_TOKEN: (state, token) => {
 			state.token = token;
-			setStorage({ name: 'token', content: state.token, type: true });
+			setStorage({ name: 'token', content: token, type: true });
 		},
 	},
-	actions: {},
-	modules: {},
 });
