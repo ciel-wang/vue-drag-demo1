@@ -7,7 +7,13 @@
 				<el-option v-for="item in optionMap[key]" :key="item.value" :label="item.label" :value="item.value"></el-option>
 			</el-select>
 
+			<el-switch v-else-if="key === 'noMeetingDispaly'" v-model="contain.activeAttr.noMeetingDispaly"></el-switch>
+
 			<el-input-number v-else v-model="contain.activeAttr[key]" :min="0" :precision="0" :controls="false"></el-input-number>
+		</el-form-item>
+
+		<el-form-item label="是否显示" v-if="contain.activeAttr.noMeetingDispaly">
+			<el-switch v-model="contain.activeAttr.show"></el-switch>
 		</el-form-item>
 	</div>
 </template>
@@ -30,6 +36,7 @@ export default {
 				{ key: 'letterSpacing', label: '字间距' },
 				{ key: 'textAlign', label: '左右对齐' },
 				{ key: 'verticalAlign', label: '上下对齐' },
+				{ key: 'noMeetingDispaly', label: '无会议判断' },
 			],
 			selectKey: ['textAlign', 'borderStyle', 'verticalAlign', 'fontWeight'],
 			optionMap: {

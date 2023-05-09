@@ -12,12 +12,12 @@
 				<el-option v-for="item in dataKeyDic" :key="item.value" :label="item.label" :value="item.value"></el-option>
 			</el-select>
 		</el-form-item>
-		<el-form-item label="时间格式" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
+		<el-form-item label="时间格式" v-show="['meetingTime', 'startTime', 'endTime'].includes(contain.activeObj.data.dataKey)">
 			<el-select v-model="contain.activeAttr.format">
 				<el-option v-for="item in formatDic" :key="item.value" :label="item.label" :value="item.value"></el-option>
 			</el-select>
 		</el-form-item>
-		<el-form-item label="自定义格式" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
+		<el-form-item label="自定义格式" v-show="['meetingTime', 'startTime', 'endTime'].includes(contain.activeObj.data.dataKey)">
 			<el-input v-model="contain.activeAttr.format"> </el-input>
 		</el-form-item>
 		<el-form-item label="分隔符" v-show="contain.activeObj.data.dataKey == 'meetingTime'">
@@ -48,9 +48,14 @@ export default {
 				{ value: 'status', label: '会议状态' },
 				{ value: 'applicatEmpName', label: '预约人' },
 				{ value: 'meetingTime', label: '会议时间' },
+				{ value: 'startTime', label: '会议开始时间' },
+				{ value: 'endTime', label: '会议结束时间' },
 				{ value: 'limitMaxCount', label: '可容纳人数' },
 				{ value: 'meetingTimeRemain', label: '当前会议剩余时间' },
 				{ value: 'meetingTimeStart', label: '距会议开始时间' },
+				{ value: 'totalCount', label: '参会人数' },
+				{ value: 'signCount', label: '已签到人数' },
+				{ value: 'noSignCount', label: '未签到人数' },
 			],
 			formatDic: [
 				{ label: '日期', value: 'yyyy-MM-dd' },
@@ -66,11 +71,14 @@ export default {
 	methods: {
 		dataKeyChange(value) {
 			let item = this.dataKeyDic.find((v) => v.value === value);
-			this.contain.activeObj.data.value = item
-				? value == 'meetingTime'
-					? dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss') + '#' + dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
-					: item.label
-				: '';
+			if (value === 'meetingTime') {
+				this.contain.activeObj.data.value =
+					dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss') + '#' + dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+			} else if (['startTime', 'endTime'].includes(value)) {
+				this.contain.activeObj.data.value = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+			} else {
+				this.contain.activeObj.data.value = item && item.label;
+			}
 		},
 		dataTypeChange(value) {
 			if (value === 'dt') {

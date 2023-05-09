@@ -78,7 +78,7 @@
 			</el-collapse-item>
 
 			<el-collapse-item title="其他">
-				<el-form label-width="60px" label-position="left" size="mini" @submit.native.prevent>
+				<el-form label-width="72px" label-position="left" size="mini" @submit.native.prevent>
 					<commomAttr></commomAttr>
 					<component v-if="!['wCamera', 'wButton'].includes(contain.activeObj.name)" :is="contain.activeObj.name + 'Attr'" />
 				</el-form>
