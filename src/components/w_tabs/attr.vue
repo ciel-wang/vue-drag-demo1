@@ -19,8 +19,11 @@
 			<el-input-number v-model="contain.activeAttr.padding" :min="0" :precision="0" :controls="false"></el-input-number>
 		</el-form-item>
 
-		<el-form-item label="背景颜色">
-			<el-color-picker v-model="contain.activeAttr.backgroundColor1" show-alpha></el-color-picker>
+		<el-form-item label="奇数颜色">
+			<el-color-picker v-model="contain.activeAttr.oddBackgroundColor" show-alpha></el-color-picker>
+		</el-form-item>
+		<el-form-item label="偶数颜色">
+			<el-color-picker v-model="contain.activeAttr.evenBackgroundColor" show-alpha></el-color-picker>
 		</el-form-item>
 		<el-form-item label="背景图片地址">
 			<img :src="contain.activeAttr.background" alt="" width="60%" />

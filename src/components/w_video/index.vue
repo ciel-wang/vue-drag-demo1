@@ -1,5 +1,13 @@
 <template>
-	<video muted width="100%" height="100%" :src="dataChart" v-bind="params" style="object-fit: fill"></video>
+	<video
+		muted
+		width="100%"
+		height="100%"
+		:src="dataChart"
+		v-bind="params"
+		style="object-fit: fill"
+		:style="{ borderRadius: attr.borderRadius + 'px' }"
+	></video>
 </template>
 
 <script>

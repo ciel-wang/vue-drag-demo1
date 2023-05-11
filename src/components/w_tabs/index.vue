@@ -32,7 +32,8 @@ export default {
 				'--rowGap': this.$w.setPx(this.attr.rowGap),
 				'--columnGap': this.$w.setPx(this.attr.columnGap),
 				'--padding': this.$w.setPx(this.attr.padding),
-				'--backgroundColor1': this.attr.backgroundColor1,
+				'--oddBackgroundColor': this.attr.oddBackgroundColor,
+				'--evenBackgroundColor': this.attr.evenBackgroundColor,
 				overflow: 'auto',
 			};
 		},
@@ -44,13 +45,18 @@ export default {
 .w_tabs {
 	margin-bottom: var(--rowGap);
 	padding: var(--padding);
-	background-color: var(--backgroundColor1);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	height: var(--columnHeight);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	&:nth-child(odd) {
+		background-color: var(--oddBackgroundColor);
+	}
+	&:nth-child(even) {
+		background-color: var(--evenBackgroundColor);
+	}
 }
 .w_tabs1 {
 	width: var(--columnWidth);
@@ -58,6 +64,7 @@ export default {
 .w_tabs2 {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, var(--columnWidth));
-	grid-gap: 0 var(--columnGap);
+	grid-gap: var(--rowGap) var(--columnGap);
+	grid-template-rows: repeat(auto-fit, var(--columnHeight));
 }
 </style>
